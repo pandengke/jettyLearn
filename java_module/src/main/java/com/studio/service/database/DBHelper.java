@@ -1,13 +1,11 @@
 package com.studio.service.database;
 
 import com.studio.service.data.User;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import java.sql.*;
 import java.util.List;
@@ -135,5 +133,27 @@ public class DBHelper {
         return false;
     }
 
+    public boolean hqlQuery(String uid) {
+        // A SessionFactory is set up once for an application!
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure() // configures settings from hibernate.cfg.xml
+                .build();
+        try {
+            Session session = new MetadataSources(registry).buildMetadata().buildSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            List list =  session.createQuery("from User").list();
+            System.out.println("*******");
+            System.out.println(list);
+            System.out.println("******");
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
+            // so destroy it manually.
+            e.printStackTrace();
+            StandardServiceRegistryBuilder.destroy(registry);
+        }
+        return false;
+    }
 
 }

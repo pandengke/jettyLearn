@@ -1,8 +1,5 @@
 package com.studio.service.database;
 
-import com.studio.service.data.ITemplateMsg;
-import com.studio.service.data.User;
-import com.studio.service.templates.BaseTemplate;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,5 +35,10 @@ public class DBHelperTest {
     @Test
     public void testHqlInsertUser() throws Exception {
         Assert.assertEquals(true,new DBHelper().hqlInsertUser("12345"));
+    }
+
+    @Test
+    public void testHqlQuery() throws Exception {
+//        Assert.assertEquals(true,new DBHelper().hqlQuery("12345"));
     }
 }

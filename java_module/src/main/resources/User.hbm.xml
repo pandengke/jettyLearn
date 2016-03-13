@@ -3,12 +3,12 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.studio.service.data.User" table="hql_user">
+    <class name="com.studio.service.data.User" table="orcl_user">
         <id name="id">
             <generator class="increment"/>
         </id>
-        <property name="uid" unique="true"/>
-        <property name="uname"/>
-        <property name="password"/>
+        <property name="uid" unique="true" column="orc_uid"/>
+        <property name="uname" column="orc_uname"/>
+        <property name="password" column="orc_password"/>
     </class>
 </hibernate-mapping>
