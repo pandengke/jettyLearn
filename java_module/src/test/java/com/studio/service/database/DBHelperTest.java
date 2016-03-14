@@ -1,6 +1,5 @@
 package com.studio.service.database;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -23,7 +22,26 @@ public class DBHelperTest {
 
     @org.junit.Test
     public void testInsertUser() throws Exception {
-
+//        InputStream inputXML = new BufferedInputStream(new FileInputStream("D:\\Idea workspace\\GradleWebAppSample-master\\java_module\\src\\main\\resources\\user_xls_cfg.xml"));
+//        XLSReader mainReader = ReaderBuilder.buildFromXML(inputXML);
+//        InputStream inputXLS = new BufferedInputStream(new FileInputStream("D:\\Idea workspace\\GradleWebAppSample-master\\java_module\\src\\main\\resources\\xls_res.xlsx"));
+//        Student stu = new Student();
+//        List<Student> stus = new ArrayList();
+//        List<Student> stus1 = new ArrayList();
+//        Map beans = new HashMap();
+//        beans.put("stu", stu);
+//        beans.put("stus", stus);
+//        beans.put("stus1", stus1);
+//        XLSReadStatus readStatus = mainReader.read(inputXLS, beans);
+//        System.out.print("*****\n");
+//        System.out.print("*****\n");
+//        System.out.print("*****\n");
+//        System.out.println("stu:" + stu);
+//        System.out.println("stus:" + stus);
+//        System.out.print("*****\n");
+//        System.out.print("*****\n");
+//        System.out.print("*****\n");
+//        Assert.assertEquals(true, readStatus.isStatusOK());
     }
 
     @Test
@@ -34,7 +52,7 @@ public class DBHelperTest {
 
     @Test
     public void testHqlInsertUser() throws Exception {
-        Assert.assertEquals(true,new DBHelper().hqlInsertUser("12345"));
+//        Assert.assertEquals(true,new DBHelper().hqlInsertUser("12345"));
     }
 
     @Test

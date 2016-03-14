@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 /**
  * Created by 1234 on 2016/3/9.
  */
-public class User implements ITemplateData{
+public class User{
     private long id;
     public String uid;
     public String uname;

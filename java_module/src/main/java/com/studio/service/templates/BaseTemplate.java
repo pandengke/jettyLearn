@@ -1,8 +1,6 @@
 package com.studio.service.templates;
 
 import com.google.gson.GsonBuilder;
-import com.studio.service.data.ITemplateData;
-import com.studio.service.data.ITemplateMsg;
 import com.studio.service.doc.ResponseCode;
 
 /**
