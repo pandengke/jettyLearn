@@ -2,8 +2,6 @@ version 'unspecified'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
-
 repositories {
     mavenCentral()
 }
@@ -14,6 +12,7 @@ dependencies {
     compile "junit:junit:4.11"
     compile 'org.hibernate:hibernate-core:5.0.0.Final'
     compile 'jexcelapi:jxl:2.6'
+    compile 'io.jsonwebtoken:jjwt:0.6.0'
 }
 
 task copyJars(type: Copy) {
