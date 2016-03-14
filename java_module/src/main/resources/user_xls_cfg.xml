@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<workbook>
+    <worksheet name="Sheet1">
+        <section startRow="0" endRow = "0">
+            <mapping row="0" col="0">stu.name</mapping>
+            <mapping row="0"  col="1">stu.age</mapping>
+            <mapping row="0"  col="2">stu.height</mapping>
+        </section>
+        <loop startRow="0" items="stus" var="stu" varType="com.studio.service.data.Student" >
+            <section startRow="0">
+                <mapping col="0">stu.name</mapping>
+                <mapping col="1">stu.age</mapping>
+                <mapping col="2">stu.height</mapping>
+            </section>
+            <loopbreakcondition>
+                <rowcheck offset="0">
+                    <cellcheck offset="0"></cellcheck>
+                </rowcheck>
+            </loopbreakcondition>
+        </loop>
+    </worksheet>
+</workbook>
