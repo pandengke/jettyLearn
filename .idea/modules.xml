@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GradleWebAppSample-master.iml" filepath="$PROJECT_DIR$/GradleWebAppSample-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/hibernateArt/hibernateArt.iml" filepath="$PROJECT_DIR$/hibernateArt/hibernateArt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hibernateArt/hibernateArt.iml" filepath="$PROJECT_DIR$/hibernateArt/hibernateArt.iml" />
       <module fileurl="file://$PROJECT_DIR$/java_module/java_module.iml" filepath="$PROJECT_DIR$/java_module/java_module.iml" />
       <module fileurl="file://$PROJECT_DIR$/jettyLearn.iml" filepath="$PROJECT_DIR$/jettyLearn.iml" />
       <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />

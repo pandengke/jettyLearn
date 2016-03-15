@@ -1,8 +1,8 @@
 package com.studio.service.jwt;
 
 import com.sun.javafx.css.StyleCacheEntry;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.DefaultHeader;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 
 import java.security.Key;
@@ -14,20 +14,36 @@ import java.util.Map;
  * Created by Administrator on 2016/3/14.
  */
 public class Utils {
-    private static Map<Key, String> tokenKey = new HashMap<>();
-    private static Map<String, Key> tokenMap = new HashMap<>();
 
-
+    static Key key = null;
     public static String generateWebToken(String name) {
-        Key key = MacProvider.generateKey();
-        String str = Jwts.builder().setIssuer(name).setExpiration(new Date(System.currentTimeMillis() + 5000)).
-                signWith(SignatureAlgorithm.HS512, key).compact();
-        tokenKey.put(key, name);
-        tokenMap.put(str, key);
+        long curTime = System.currentTimeMillis();
+        key = MacProvider.generateKey();
+        Claims claim = Jwts.claims();
+        String audience = "mjj";
+        Map<String, Object> header = Jwts.header();
+        Date expir = new Date(curTime + 5000);
+        Date issAt = new Date(curTime);
+        String id = "1234";
+        Date notBef = null;
+        String subject = "subject";
+        String str = Jwts.builder().
+                setIssuer(name).
+                setExpiration(expir).
+                setClaims(claim).
+                setAudience(audience).
+                setHeader(header).
+                setIssuedAt(issAt).
+                setId(id).
+                setNotBefore(notBef).
+                setSubject(subject).
+                signWith(SignatureAlgorithm.HS512, key).
+                compact();
         return str;
     }
 
     public static String parseBody(String token) {
-        return Jwts.parser().setSigningKey(tokenMap.get(token)).parse(token).getBody().toString();
+        Jwt jwt = Jwts.parser().setSigningKey(key).parse(token);
+        return jwt.getBody().toString();
     }
 }
