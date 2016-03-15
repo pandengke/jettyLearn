@@ -27,6 +27,7 @@ public class Utils {
         String id = "1234";
         Date notBef = null;
         String subject = "subject";
+
         String str = Jwts.builder().
                 setIssuer(name).
                 setExpiration(expir).
