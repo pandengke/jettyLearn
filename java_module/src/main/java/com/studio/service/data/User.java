@@ -7,29 +7,33 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * Created by 1234 on 2016/3/9.
  */
 @javax.persistence.Table(name = "orcl_user")
 @Entity
-public class User {
+public class User implements Serializable {
+    private static final long VESSION = 1L;
+
+
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(strategy = "org.hibernate.id.IncrementGenerator", name = "generator")
     private long id;
 
-    @Column(name = "orcl_uid")
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(strategy = "org.hibernate.id.UUIDGenerator", name = "uuid")
     public String uid;
 
-    @Column(name = "orc_uname")
     public String uname;
 
-    @Column(name = "orc_password")
+    @Column(name = "upassword")
     public String password;
 
-    public User(String uid, String uname, String password) {
-        this.uid = uid;
+    public User(String uname, String password) {
         this.uname = uname;
         this.password = password;
     }

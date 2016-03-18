@@ -12,10 +12,24 @@ import java.util.List;
  * Created by 1234 on 2016/3/9.
  */
 public class UserDaoImpl implements UserDao {
+
+    private Session openSession() {
+        return HibernateInit.instance.getFactory().openSession();
+    }
+
+    @Override
+    public boolean register(String name, String password) {
+        Session session = openSession();
+        session.beginTransaction();
+        session.save(new User(name, password));
+        session.getTransaction().commit();
+        return true;
+    }
+
     @Override
     public String login(String uname, String password) {
         System.out.println("begin init:" + System.currentTimeMillis() % 10000);
-        Session session = HibernateInit.instance.getFactory().openSession();
+        Session session = openSession();
         session.beginTransaction();
         List list = session.createQuery("from User u where u.uname = '" + uname + "'"
                 + " and " + "u.password = '" + password + "'"
@@ -35,7 +49,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean refreshToken(String uid, String token) {
-        Session session = HibernateInit.instance.getFactory().openSession();
+        Session session = openSession();
         session.beginTransaction();
         UserAuth userAuth = new UserAuth();
         userAuth.setUid(uid);

@@ -13,8 +13,19 @@ public class UserDaoImplTest {
 
     @Test
     public void testLogin() throws Exception {
+//        UserDao userDao = new UserDaoImpl();
+//        String token = userDao.login("zb", "zbpass");
+//        Assert.assertNotNull(token);
+    }
+
+    @Test
+    public void testRegister() throws Exception {
         UserDao userDao = new UserDaoImpl();
-        String token = userDao.login("zb", "zbpass");
-        Assert.assertNotNull(token);
+        Assert.assertEquals(true, userDao.register("pdk", "pdkpass"));
+    }
+
+    @Test
+    public void testRefreshToken() throws Exception {
+
     }
 }

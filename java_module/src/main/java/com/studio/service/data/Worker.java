@@ -2,9 +2,7 @@ package com.studio.service.data;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by 1234 on 2016/3/9.
@@ -17,9 +15,7 @@ public class Worker {
     private String wname;
     private String wskill;
 
-    public Worker(long id, String wid, String wname, String wskill) {
-        this.id = id;
-        this.wid = wid;
+    public Worker(String wname, String wskill) {
         this.wname = wname;
         this.wskill = wskill;
     }
@@ -28,7 +24,9 @@ public class Worker {
 
     }
 
-    @GenericGenerator(name = "generator", strategy = "increment")
+    @Id
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", strategy = "org.hibernate.id.IncrementGenerator")
     public long getId() {
         return id;
     }
@@ -37,6 +35,9 @@ public class Worker {
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Column
     public String getWid() {
         return wid;

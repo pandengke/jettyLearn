@@ -20,22 +20,22 @@ public class DBHelper {
 
     public User queryUser(String uid) {
         User user = null;
-        try {
-            com.mysql.jdbc.Driver d = null;
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            String sql = "select * from user_info where uid = " + uid;
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            if (rs.next()) {
-                String uname = rs.getString("uname");
-                String password = rs.getString("password");
-                user = new User(uid, uname, password);
-            }
-            rs.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            com.mysql.jdbc.Driver d = null;
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+//            String sql = "select * from user_info where uid = " + uid;
+//            Statement statement = connection.createStatement();
+//            ResultSet rs = statement.executeQuery(sql);
+//            if (rs.next()) {
+//                String uname = rs.getString("uname");
+//                String password = rs.getString("password");
+//                user = new User(uid, uname, password);
+//            }
+//            rs.close();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
         return user;
     }
 
