@@ -1,8 +1,16 @@
 package com.studio.service.data;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Created by 1234 on 2016/3/9.
  */
+@Table(name = "d_worker")
+@Entity
 public class Worker {
     private long id;
     private String wid;
@@ -20,6 +28,7 @@ public class Worker {
 
     }
 
+    @GenericGenerator(name = "generator", strategy = "increment")
     public long getId() {
         return id;
     }
@@ -28,6 +37,7 @@ public class Worker {
         this.id = id;
     }
 
+    @Column
     public String getWid() {
         return wid;
     }
@@ -36,6 +46,7 @@ public class Worker {
         this.wid = wid;
     }
 
+    @Column
     public String getWname() {
         return wname;
     }
@@ -44,6 +55,7 @@ public class Worker {
         this.wname = wname;
     }
 
+    @Column
     public String getWskill() {
         return wskill;
     }

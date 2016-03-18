@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -13,9 +14,18 @@ import javax.persistence.Id;
 @javax.persistence.Table(name = "orcl_user")
 @Entity
 public class User {
+    @Id
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(strategy = "org.hibernate.id.IncrementGenerator", name = "generator")
     private long id;
+
+    @Column(name = "orcl_uid")
     public String uid;
+
+    @Column(name = "orc_uname")
     public String uname;
+
+    @Column(name = "orc_password")
     public String password;
 
     public User(String uid, String uname, String password) {
@@ -33,7 +43,6 @@ public class User {
         return new Gson().toJson(this);
     }
 
-    @Column(name = "orc_uname")
     public String getUname() {
         return uname;
     }
@@ -42,7 +51,6 @@ public class User {
         this.uname = uname;
     }
 
-    @Column(name = "orc_password")
     public String getPassword() {
         return password;
     }
@@ -51,8 +59,7 @@ public class User {
         this.password = password;
     }
 
-    @Id
-    @GenericGenerator(strategy = "increment", name = "generator")
+
     public long getId() {
         return id;
     }
@@ -61,7 +68,6 @@ public class User {
         this.id = id;
     }
 
-    @Column(name = "orcl_uid")
     public String getUid() {
         return uid;
     }
