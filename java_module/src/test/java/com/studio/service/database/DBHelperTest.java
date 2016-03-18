@@ -1,5 +1,6 @@
 package com.studio.service.database;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -52,7 +53,7 @@ public class DBHelperTest {
 
     @Test
     public void testHqlInsertUser() throws Exception {
-//        Assert.assertEquals(true,new DBHelper().hqlInsertUser("12345"));
+        Assert.assertEquals(true,new DBHelper().hqlInsertUser("12345"));
     }
 
     @Test

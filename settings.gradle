@@ -1,4 +1,2 @@
-include ":utils",":web"
-include 'java_module'
-include 'hibernateArt'
+include ":web",'java_module'
 

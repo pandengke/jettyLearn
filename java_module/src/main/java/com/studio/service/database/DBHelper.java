@@ -119,7 +119,6 @@ public class DBHelper {
             Transaction tx = session.beginTransaction();
             User user = new User();
             user.setUname("zb");
-            user.setUid(uid);
             user.setPassword("zbpass");
             session.save(user);
             tx.commit();

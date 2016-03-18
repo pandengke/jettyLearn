@@ -1,11 +1,18 @@
 package com.studio.service.data;
 
 import com.google.gson.Gson;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Created by 1234 on 2016/3/9.
  */
-public class User{
+@javax.persistence.Table(name = "orcl_user")
+@Entity
+public class User {
     private long id;
     public String uid;
     public String uname;
@@ -17,7 +24,7 @@ public class User{
         this.password = password;
     }
 
-    public User(){
+    public User() {
 
     }
 
@@ -26,7 +33,7 @@ public class User{
         return new Gson().toJson(this);
     }
 
-
+    @Column(name = "orc_uname")
     public String getUname() {
         return uname;
     }
@@ -35,6 +42,7 @@ public class User{
         this.uname = uname;
     }
 
+    @Column(name = "orc_password")
     public String getPassword() {
         return password;
     }
@@ -43,6 +51,8 @@ public class User{
         this.password = password;
     }
 
+    @Id
+    @GenericGenerator(strategy = "increment", name = "generator")
     public long getId() {
         return id;
     }
@@ -51,6 +61,7 @@ public class User{
         this.id = id;
     }
 
+    @Column(name = "orcl_uid")
     public String getUid() {
         return uid;
     }
