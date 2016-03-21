@@ -1,5 +1,6 @@
 package com.studio.service.download;
 
+import com.studio.service.download.impl.ResumeDownloader;
 import com.studio.service.download.impl.SimpleDownloader;
 
 /**
@@ -7,7 +8,7 @@ import com.studio.service.download.impl.SimpleDownloader;
  */
 public class DownloadUtils {
     public static void main(String[] args) {
-        IDownloader downloader = new SimpleDownloader() {
+        IDownloader downloader = new ResumeDownloader() {
             int lastPercent = 0;
 
             @Override

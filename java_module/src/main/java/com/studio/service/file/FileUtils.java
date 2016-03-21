@@ -1,5 +1,8 @@
 package com.studio.service.file;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,5 +81,36 @@ public class FileUtils {
             }
         }
         return files;
+    }
+
+    public static String readTextFromFile(File f) {
+        if (f.exists()) {
+            FileReader fr = null;
+            char[] buffer = new char[512];
+            StringBuffer sb = new StringBuffer();
+            try {
+                fr = new FileReader(f);
+                int len;
+                while (true) {
+                    len = fr.read(buffer, 0, buffer.length);
+                    if (len == -1) {
+                        break;
+                    }
+                    sb.append(buffer, 0, len);
+                }
+                return sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fr != null) {
+                    try {
+                        fr.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

@@ -18,6 +18,11 @@ public class SimpleDownloader extends BaseDownloader {
     private File file;
 
     @Override
+    public void setThreadCount(int count) {
+        throw new UnsupportedOperationException("SimpleDownloader can not set thread count");
+    }
+
+    @Override
     public void prepare() {
         setDownloadStatus(DownloadStatus.STOPPED);
         String folder = getSaveDirectoryPath();
@@ -32,6 +37,9 @@ public class SimpleDownloader extends BaseDownloader {
 
     @Override
     public void start() {
+        if (getDownloadStatus() != DownloadStatus.READY) {
+            throw new IllegalStateException("the download status is not ready");
+        }
         setDownloadStatus(DownloadStatus.RUNNING);
         FileOutputStream fos = null;
         BufferedInputStream bis = null;

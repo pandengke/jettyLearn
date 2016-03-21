@@ -12,7 +12,7 @@ public abstract class BaseDownloader implements IDownloader {
     private String url;
     private String fileDirectory;
 
-    private int threadCount;
+    private int threadCount = 1;
 
     private DownloadStatus downloadStatus;
 
