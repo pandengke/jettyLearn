@@ -22,12 +22,18 @@ public class ResumeDownloader extends BaseDownloader {
     public class Task {
         int piece;
         int start;
-        long end;
+        int offset;
+        int end;
 
-        public Task(int piece, int start, long end) {
+        public Task(int piece, int start, int offset, int end) {
             this.piece = piece;
             this.start = start;
+            this.offset = offset;
             this.end = end;
+        }
+
+        public boolean isComplete() {
+            return start >= end;
         }
     }
 
@@ -40,6 +46,10 @@ public class ResumeDownloader extends BaseDownloader {
 
     private ExecutorService service;
 
+    private int totalLen;
+    private int totalDownload;
+    private String jsonConfig;
+
     @Override
     public void prepare() {
 
@@ -47,17 +57,25 @@ public class ResumeDownloader extends BaseDownloader {
         try {
             URL url = new URL(getUrl());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            if (tasks == null) {
-                tasks = createTask(conn.getContentLength(), getTaskCount());
+            totalLen = conn.getContentLength();
+
+            if (tasks == null && totalLen != -1) {
+                tasks = createTask(totalLen, getTaskCount());
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (tasks != null) {
+            updateRecord();
             setDownloadStatus(DownloadStatus.READY);
         }
 
+    }
+
+    private synchronized void updateRecord() {
+        jsonConfig = new Gson().toJson(tasks);
+        saveTasks();
     }
 
     public List<Task> createTask(int totalLength, int taskCount) {
@@ -69,7 +87,7 @@ public class ResumeDownloader extends BaseDownloader {
             if (end > totalLength) {
                 end = totalLength;
             }
-            Task task = new Task(i, start, end);
+            Task task = new Task(i, start, 0, end);
             tasks.add(task);
         }
         return tasks;
@@ -77,11 +95,18 @@ public class ResumeDownloader extends BaseDownloader {
 
     private List<Task> loadTasks() {
         String folder = getSaveDirectoryPath();
-        jsonFileName = getUrl().substring(getUrl().lastIndexOf('/') + 1) + ".json";
-        jsonFile = new File(folder + jsonFileName);
+        jsonFileName = getUrl().substring(getUrl().lastIndexOf("/") + 1) + ".json";
+        jsonFile = new File(folder + File.separatorChar + jsonFileName);
         String jsonConfig = FileUtils.readTextFromFile(jsonFile);
         return new Gson().fromJson(jsonConfig, new TypeToken<List<Task>>() {
         }.getType());
+    }
+
+    private void saveTasks() {
+        String folder = getSaveDirectoryPath();
+        jsonFileName = getUrl().substring(getUrl().lastIndexOf("/") + 1) + ".json";
+        jsonFile = new File(folder + File.separatorChar + jsonFileName);
+        FileUtils.writeTextToFile(jsonFile, jsonConfig);
     }
 
     @Override
@@ -89,40 +114,58 @@ public class ResumeDownloader extends BaseDownloader {
         if (getDownloadStatus() != DownloadStatus.READY) {
             throw new IllegalStateException("the download status is not ready");
         }
-        service = Executors.newFixedThreadPool(getThreadCount());
-        runningCount = tasks.size();
         for (Task task : tasks) {
-            service.execute(() -> write(task));
+            totalDownload += task.offset;
+        }
+        System.out.println("start percent:" + totalDownload / (float) totalLen);
+        setDownloadStatus(DownloadStatus.RUNNING);
+        service = Executors.newFixedThreadPool(getThreadCount());
+        for (Task task : tasks) {
+            if (!task.isComplete()) {
+                service.execute(() -> write(task));
+            }
         }
     }
 
     private void write(Task task) {
-
+        System.out.println("start task:" + task.piece);
         BufferedInputStream bis = null;
         byte[] buffer = new byte[1024 * 512];
         try {
             String folder = getSaveDirectoryPath();
             String fileName = getUrl().substring(getUrl().lastIndexOf('/') + 1);
-            RandomAccessFile file = new RandomAccessFile(folder + "\\" + fileName, "rw");
+            RandomAccessFile file = new RandomAccessFile(folder + File.separatorChar + fileName, "rw");
             URL url = new URL(getUrl());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.addRequestProperty("Range", "bytes="+task.start + "-" + task.end);
-            conn.getInputStream();
+            conn.addRequestProperty("Range", "bytes=" + task.start + "-" + task.end);
             bis = new BufferedInputStream(conn.getInputStream());
             int readLen;
-            int offset = 0;
             while (getDownloadStatus() == DownloadStatus.RUNNING) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 readLen = bis.read(buffer, 0, buffer.length);
                 if (readLen == -1) {
+                    tasks.remove(task);
+                    updateRecord();
                     break;
                 }
-//                onProgressChange((float) sum / totalLen);
-                file.seek(task.start + offset);
-                offset += readLen;
+                file.seek(task.start + task.offset);
                 file.write(buffer, 0, readLen);
+                task.offset += readLen;
+                totalDownload += readLen;
+                synchronized (this) {
+                    onProgressChange((float) totalDownload / totalLen);
+                    updateRecord();
+                }
+                if (task.start + task.offset >= task.end) {
+                    task.start = task.end;
+                    break;
+                }
             }
             file.close();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -137,14 +180,17 @@ public class ResumeDownloader extends BaseDownloader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        runningCount--;
-        if (runningCount == 0) {
-            service.shutdown();
+            onProgressChange((float) totalDownload / totalLen);
+            updateRecord();
+            boolean complete = true;
+            for (Task each : tasks) {
+                complete = complete && each.isComplete();
+            }
+            if (complete) {
+                stop();
+            }
         }
     }
-
-    int runningCount = 0;
 
     @Override
     public void pause() {
@@ -153,11 +199,12 @@ public class ResumeDownloader extends BaseDownloader {
 
     @Override
     public void stop() {
-
+        service.shutdown();
         //删除配置文件；
         if (jsonFile != null) {
             jsonFile.delete();
         }
+        setDownloadStatus(DownloadStatus.READY);
     }
 
     @Override

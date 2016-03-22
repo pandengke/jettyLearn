@@ -47,4 +47,11 @@ public class FileUtilsTest {
         }
         Assert.assertNotNull(files);
     }
+
+    @Test
+    public void testWriteTextToFile() throws Exception {
+        File f = new File("D://test_download/a.txt");
+        FileUtils.writeTextToFile(f, "abcde" +
+                "fg");
+    }
 }

@@ -38,7 +38,7 @@ public class FileUtils {
         if (path == null) {
             return null;
         }
-        String dir = path.substring(0, path.lastIndexOf('\\'));
+        String dir = path.substring(0, path.lastIndexOf(File.pathSeparator));
         new File(dir).mkdir();
         File file = new File(path);
 
@@ -112,5 +112,45 @@ public class FileUtils {
             }
         }
         return null;
+    }
+
+    public static void writeTextToFile(File f, String text) {
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        BufferedOutputStream bos = null;
+        byte[] textBytes = text.getBytes();
+        try {
+            bos = new BufferedOutputStream(new FileOutputStream(f));
+            int leave = textBytes.length;
+            int offset = 0;
+            int writeLen = 0;
+            while (true) {
+                if (leave > 1024) {
+                    writeLen = 1024;
+                } else {
+                    writeLen = leave;
+                }
+                bos.write(textBytes, offset, writeLen);
+                leave -= writeLen;
+                if (leave <= 0) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
