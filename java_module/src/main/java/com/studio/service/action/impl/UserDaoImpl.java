@@ -51,6 +51,10 @@ public class UserDaoImpl implements UserDao {
     public boolean refreshToken(String uid, String token) {
         Session session = openSession();
         session.beginTransaction();
+        List<UserAuth> list = session.createQuery("select ua from UserAuth ua where ua.uid = '" + uid + "'").list();
+        for (UserAuth au : list) {
+            session.delete(au);
+        }
         UserAuth userAuth = new UserAuth();
         userAuth.setUid(uid);
         userAuth.setToken(token);
@@ -58,5 +62,14 @@ public class UserDaoImpl implements UserDao {
         session.getTransaction().commit();
         System.out.println("after save token:" + System.currentTimeMillis() % 10000);
         return true;
+    }
+
+    @Override
+    public boolean isAuth(String token) {
+        Session session = openSession();
+        session.beginTransaction();
+        List list = session.createQuery("select ua from UserAuth  ua where ua.token like '" + token + "'").list();
+        session.getTransaction().commit();
+        return list.size() > 0;
     }
 }

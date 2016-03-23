@@ -7,5 +7,5 @@ import java.util.List;
  */
 public interface QueryDocDao {
 
-    List<String> queryUseDocrCatogory(String token, String uid);
+    List<String> queryUseDocrCatogory(String token);
 }

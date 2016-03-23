@@ -13,7 +13,7 @@ public class BusinessRunner {
 
     public boolean userLogin(int uid, String password) {
         User user = new DBHelper().queryUser("" + uid);
-        if (password.equals(user.password)) {
+        if (user != null && password.equals(user.password)) {
             return true;
         } else {
             return false;

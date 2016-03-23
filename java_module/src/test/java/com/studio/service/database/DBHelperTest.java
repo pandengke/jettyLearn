@@ -1,5 +1,6 @@
 package com.studio.service.database;
 
+import com.studio.service.data.User;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,8 +48,8 @@ public class DBHelperTest {
 
     @Test
     public void testHqlUser() throws Exception {
-//        User user = new DBHelper().hqlUser("123");
-//        Assert.assertEquals("123", user.uid);
+        User user = new DBHelper().hqlUser("123");
+        Assert.assertEquals("123", user.uid);
     }
 
     @Test

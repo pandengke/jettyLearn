@@ -4,11 +4,6 @@ import com.mindstorm.apputils.BusinessRunner;
 import com.studio.service.doc.ResponseCode;
 import com.studio.service.file.FileUtils;
 import com.studio.service.templates.BaseTemplate;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.ProgressListener;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -88,96 +83,7 @@ public class DaysToGoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-        // Configure a repository (to ensure a secure temp location is used)
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        factory.setRepository(repository);
-
-        // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
-
-        // Parse the request
-        try {
-            List<FileItem> items = upload.parseRequest(req);
-
-
-            //Create a progress listener
-            ProgressListener progressListener = new ProgressListener(){
-                public void update(long pBytesRead, long pContentLength, int pItems) {
-                    System.out.println("We are currently reading item " + pItems);
-                    if (pContentLength == -1) {
-                        System.out.println("So far, " + pBytesRead + " bytes have been read.");
-                    } else {
-                        System.out.println("So far, " + pBytesRead + " of " + pContentLength
-                                + " bytes have been read.");
-                    }
-                }
-            };
-            upload.setProgressListener(progressListener);
-
-
-            // Process the uploaded items
-            Iterator<FileItem> iter = items.iterator();
-            while (iter.hasNext()) {
-                FileItem item = iter.next();
-
-                if (item.isFormField()) {
-                    processFormField(item);
-                } else {
-                    processUploadedFile(item);
-                }
-            }
-
-        } catch (FileUploadException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
-
-    private void processUploadedFile(FileItem item) {
-
-        String fieldName = item.getFieldName();
-        String fileName = item.getName();
-        String contentType = item.getContentType();
-        boolean isInMemory = item.isInMemory();
-        long sizeInBytes = item.getSize();
-
-
-        boolean writeToFile = false;
-        // Process a file upload
-        if (writeToFile) {
-            File uploadedFile = new File("");
-            try {
-                item.write(uploadedFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            InputStream uploadedStream = null;
-            try {
-                uploadedStream = item.getInputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            ...
-            try {
-                if (uploadedStream != null) {
-                    uploadedStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void processFormField(FileItem item) {
-        String name = item.getFieldName();
-        String value = item.getString();
-
-    }
 }

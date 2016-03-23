@@ -13,10 +13,9 @@ dependencies {
     compile 'org.hibernate:hibernate-core:5.0.0.Final'
     compile 'jexcelapi:jxl:2.6'
     compile 'io.jsonwebtoken:jjwt:0.6.0'
-    compile 'commons-fileupload:commons-fileupload:1.2.2'
 }
 
 task copyJars(type: Copy) {
     from configurations.runtime
-    into 'libs' // 目标位置
+    into 'copyJars2' // 目标位置
 }

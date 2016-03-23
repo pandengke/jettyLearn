@@ -9,4 +9,6 @@ public interface UserDao {
     String login(String uname, String password);
 
     boolean refreshToken(String uid, String token);
+
+    boolean isAuth(String token);
 }

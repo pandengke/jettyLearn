@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class QueryDocDaoImpl implements QueryDocDao {
     @Override
-    public List<String> queryUseDocrCatogory(String token, String uid) {
+    public List<String> queryUseDocrCatogory(String token) {
         Session session = HibernateInit.instance.getFactory().openSession();
         session.beginTransaction();
         List list = session.createQuery("from UserDoc.directory").list();

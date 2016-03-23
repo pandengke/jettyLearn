@@ -8,26 +8,38 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <servlet-name>DaysToGo</servlet-name>
         <servlet-class>com.mindstorm.webapp.DaysToGoServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>DaysToGo</servlet-name>
+        <url-pattern>/daystogo</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>UserLogin</servlet-name>
         <servlet-class>com.mindstorm.webapp.UserLoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>DaysToGo</servlet-name>
-        <url-pattern>/daystogo</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>UserLogin</servlet-name>
         <url-pattern>/user_login</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>UserList</servlet-name>
+        <servlet-class>com.mindstorm.webapp.UserListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserList</servlet-name>
+        <url-pattern>/userList</url-pattern>
+    </servlet-mapping>
+
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
     <!--http://commons.apache.org/proper/commons-fileupload/using.html-->
-    <listener>
-        <listener-class>
-            org.apache.commons.fileupload.servlet.FileCleanerCleanup
-        </listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>-->
+        <!--</listener-class>-->
+    <!--</listener>-->
 </web-app>
