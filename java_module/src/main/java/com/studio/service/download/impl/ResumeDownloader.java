@@ -200,7 +200,6 @@ public class ResumeDownloader extends BaseDownloader {
     @Override
     public void stop() {
         service.shutdown();
-        //删除配置文件；
         if (jsonFile != null) {
             jsonFile.delete();
         }
