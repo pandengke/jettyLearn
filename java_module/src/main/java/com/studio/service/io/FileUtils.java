@@ -1,7 +1,4 @@
-package com.studio.service.file;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+package com.studio.service.io;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import java.util.regex.Pattern;
  * Created by Administrator on 2016/3/21.
  */
 public class FileUtils {
+
 
     public static boolean saveStringToFile(String str, String path) {
 
@@ -153,4 +151,6 @@ public class FileUtils {
             }
         }
     }
+
+
 }

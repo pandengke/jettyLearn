@@ -53,7 +53,7 @@
             }
 //根据byte数组创建字符串
             String file = new String(dataBytes);
-//out.println(file);
+//out.println(io);
 //取得上传的数据的文件名
             String saveFile = file.substring(file.indexOf("filename=\"") + 10);
             saveFile = saveFile.substring(0, saveFile.indexOf("\n"));

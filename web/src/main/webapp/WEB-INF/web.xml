@@ -32,6 +32,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <url-pattern>/userList</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DoUpload</servlet-name>
+        <servlet-class>com.mindstorm.webapp.DoUploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DoUpload</servlet-name>
+        <url-pattern>/do_upload</url-pattern>
+    </servlet-mapping>
+
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

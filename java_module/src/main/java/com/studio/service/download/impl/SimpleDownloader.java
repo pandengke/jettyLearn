@@ -1,11 +1,14 @@
 package com.studio.service.download.impl;
 
 import com.studio.service.download.BaseDownloader;
-import com.studio.service.file.FileUtils;
+import com.studio.service.io.FileUtils;
+import com.studio.service.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -41,49 +44,35 @@ public class SimpleDownloader extends BaseDownloader {
             throw new IllegalStateException("the download status is not ready");
         }
         setDownloadStatus(DownloadStatus.RUNNING);
+
+
+        InputStream inputStream = null;
         FileOutputStream fos = null;
-        BufferedInputStream bis = null;
-        byte[] buffer = new byte[1024 * 512];
+
         try {
             URL url = new URL(getUrl());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            bis = new BufferedInputStream(conn.getInputStream());
-//            InputStream is = conn.getInputStream();
+            int totalLen = conn.getContentLength();
+            inputStream = conn.getInputStream();
             fos = new FileOutputStream(file);
-            long totalLen = conn.getContentLength();
-            int readLen;
-            int sum = 0;
-            while (getDownloadStatus() == DownloadStatus.RUNNING) {
-                readLen = bis.read(buffer, 0, buffer.length);
-                if (readLen == -1) {
-                    break;
-                }
-                sum += readLen;
-                onProgressChange((float) sum / totalLen);
-                fos.write(buffer, 0, readLen);
-            }
+            IOUtils.readInpustream(inputStream, fos, new IOUtils.OnProgress() {
+                @Override
+                public void onStart() {
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+                }
+
+                @Override
+                public void onProgress(int progress) {
+                    onProgressChange((float) progress / totalLen);
+                }
+
+                @Override
+                public void onStop(int code) {
+
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (bis != null) {
-                    bis.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

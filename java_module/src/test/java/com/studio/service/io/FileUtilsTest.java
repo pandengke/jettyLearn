@@ -1,4 +1,4 @@
-package com.studio.service.file;
+package com.studio.service.io;
 
 import org.junit.Assert;
 import org.junit.Test;

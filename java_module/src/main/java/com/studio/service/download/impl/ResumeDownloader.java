@@ -3,11 +3,10 @@ package com.studio.service.download.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.studio.service.download.BaseDownloader;
-import com.studio.service.file.FileUtils;
+import com.studio.service.io.FileUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -166,10 +165,6 @@ public class ResumeDownloader extends BaseDownloader {
                 }
             }
             file.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
