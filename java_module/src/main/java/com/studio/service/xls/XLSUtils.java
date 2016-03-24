@@ -5,13 +5,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import jxl.Cell;
-import jxl.CellType;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.biff.EmptyCell;
 import jxl.read.biff.BiffException;
-import jxl.read.biff.SharedStringFormulaRecord;
-import jxl.write.*;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
 import java.io.File;
