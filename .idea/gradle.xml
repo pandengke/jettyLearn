@@ -10,18 +10,14 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/hibernateArt" />
             <option value="$PROJECT_DIR$/java_module" />
-            <option value="$PROJECT_DIR$/utils" />
             <option value="$PROJECT_DIR$/web" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/hibernateArt" />
             <option value="$PROJECT_DIR$/java_module" />
-            <option value="$PROJECT_DIR$/utils" />
             <option value="$PROJECT_DIR$/web" />
           </set>
         </option>

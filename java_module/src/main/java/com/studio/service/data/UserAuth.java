@@ -17,8 +17,10 @@ public class UserAuth {
     private int id;
     @Column
     private int type;//登录方式
-    @Column
-    private String uid;//用户id
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    @JoinColumn(name = "uid", nullable = false, updatable = false)
+    private User user;//用户id
     @Column
     private String token;//使用的token
 
@@ -42,12 +44,12 @@ public class UserAuth {
         this.type = type;
     }
 
-    public String getUid() {
-        return uid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUser(User uid) {
+        this.user = uid;
     }
 
     public String getToken() {
